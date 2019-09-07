@@ -1,0 +1,39 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@bazel_gazelle//:def.bzl", "gazelle")
+load("@io_bazel_rules_docker//go:image.bzl", "go_image")
+
+# gazelle:prefix github.com/chrislovecnm/bazel-go-kubernetes-demo
+gazelle(name = "gazelle")
+
+# Kubernetes deployment
+load("@k8s_deploy//:defaults.bzl", "k8s_deploy")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["main.go"],
+    importpath = "github.com/chrislovecnm/bazel-go-kubernetes-demo",
+    visibility = ["//visibility:private"],
+    deps = [
+        "@com_github_gorilla_mux//:go_default_library",
+        "@io_k8s_klog//:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "bazel-go-kubernetes-demo",
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)
+
+go_image(
+    name = "go_container",
+    binary = ":bazel-go-kubernetes-demo",
+)
+
+k8s_deploy(
+    name = "app_image",
+    template = ":deployment.yaml",
+    images = {
+        "gcr.io/chrislovecnm/server:dev": ":go_container",
+    },
+)

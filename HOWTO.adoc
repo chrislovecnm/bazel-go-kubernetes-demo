@@ -1,0 +1,39 @@
+= HOWTO
+
+== Create Cluster with gke-tf
+
+== Setup Repo
+
+touch main.go WORKSPACE BUILD.bazel
+
+== Prereqs
+install bazel requests jdk8
+using brew on mac
+install gke-tf
+
+== GKE Cluster
+Download example yaml
+Add
+
+  private: "false"
+  regional: "false"
+  zone: "us-west1-a"
+run gke-tf
+run terraform
+
+== Go
+
+cp main.go in
+
+== Bazel
+
+Go to gazelle rules website and copy and paste into Workspace and build files
+Go to bazel container riles website and pasta rules, make sure we get go_lang container rule
+Go to bazel kubernetes rules website and pasta rules
+Setup defaults for GKE cluster
+
+== Kubernetes
+Get default deployment example from https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+Edit name and container URL
+k
+
