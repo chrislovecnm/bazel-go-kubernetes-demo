@@ -1,12 +1,16 @@
+# todo use premetible
 kind: gke-cluster
 metadata:
   name: "test-cluster"
 spec:
-  region: "us-west1"
+  region: "us-west2"
   private: "false"
   regional: "false"
   zones: 
-    - "us-west1-a"
+    - "us-west2-c"
+  addons:
+    istio: false
+    binaryAuth: false
   network:
     metadata:
       name: my-network
@@ -19,3 +23,7 @@ spec:
   nodePools:
     - metadata:
         name: my-node-pool
+      spec:
+        initialNodeCount: 1
+        machineType: n1-standard-1
+        preemptible: true

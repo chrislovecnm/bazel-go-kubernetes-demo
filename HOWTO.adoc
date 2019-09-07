@@ -10,20 +10,29 @@ touch main.go WORKSPACE BUILD.bazel
 install bazel requests jdk8
 using brew on mac
 install gke-tf
+install go
+install terraform
+
 
 == GKE Cluster
-Download example yaml
-Add
+- Download example yaml
+- TODO update feilds
+- Add
 
   private: "false"
   regional: "false"
-  zone: "us-west1-a"
-run gke-tf
+  zones: 
+    - "us-west1-a"
+
+
+run gke-tf -d terraform -f gke-tf.yaml
 run terraform
 
 == Go
 
 cp main.go in
+go mod init github.com/chrislovecnm/bazel-go-kubernetes-demo
+go mod tidy
 
 == Bazel
 
@@ -35,5 +44,32 @@ Setup defaults for GKE cluster
 == Kubernetes
 Get default deployment example from https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
 Edit name and container URL
-k
+Add load statement
 
+== Run Gazelle
+bazel run //:gazelle
+bazel run //:gazelle -- update-repos -from_file=go.mod
+show how the files where updated
+
+== Run Bazel Build
+bazel build //...
+
+It will fail, so add the following to .bazelrc
+
+build --incompatible_depset_is_not_iterable=false
+run --incompatible_depset_is_not_iterable=false
+test --incompatible_depset_is_not_iterable=false
+
+== Run the binary
+
+Show how the binary works locally
+bazel run //:bazel-go-kubernetes-demo
+curl http://localhost/cars
+
+== Update bazelrc
+--platforms=@io_bazel_rules_go//go/toolchain:linux_amd64
+
+== Container
+Add go_image
+Add load for go_image
+Edit the k8s_object
