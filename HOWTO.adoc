@@ -34,6 +34,8 @@
   - metadata:
       name: my-node-pool
     spec:
+      minCount: 2
+      maxCount: 2
       initialNodeCount: 2
       machineType: n1-standard-2
       preemptible: true
@@ -44,7 +46,7 @@
 
 == Go
 - cp main.go in
-- go mod init github.com/chrislovecnm/bazel-go-kubernetes-demo
+- go mod init github.com/chrislovecnm/$(PWD)
 - go mod tidy
 
 == Bazel
