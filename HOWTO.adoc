@@ -13,7 +13,6 @@
 - install go
 - install terraform
 
-
 == GKE Cluster
 - Download example yaml
 - TODO update fields
@@ -51,19 +50,22 @@
 
 == Bazel
 - Go to gazelle rules website and copy and paste into Workspace and build files
-- Go to bazel container riles website and pasta rules, make sure we get go_lang container rule
-- Go to bazel kubernetes rules website and pasta rules
-- Setup defaults for GKE cluster
-
-== Kubernetes
-- Add load statement for kubernetes bazel
-- Get default deployment example from https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
-- Edit name and container URL
 
 == Run Gazelle
 - bazel run //:gazelle
 - bazel run //:gazelle -- update-repos -from_file=go.mod
 - show how the files where updated
+
+== Run the binary
+- Show how the binary works locally
+- bazel run //:bazel-go-kubernetes-demo
+- curl http://localhost/cars
+
+== Bazel Container Rules
+- Add load statement for go_image
+- Go to bazel container riles website and pasta rules, make sure we get go_lang container rule
+- Add go_image
+- use `binary = ":bazel-go-kubernetes-demo",` to work with gazelle
 
 == Run Bazel Build
 bazel build //...
@@ -80,24 +82,37 @@ test --host_force_python=PY2
 run --host_force_python=PY2
 ----
 
-== Run the binary
-- Show how the binary works locally
-- bazel run //:bazel-go-kubernetes-demo
-- curl http://localhost/cars
-
-== Container
-- Add load statement for go_image
-- Add go_image
-- use `binary = ":bazel-go-kubernetes-demo",` to work with gazelle
 
 == Update Kubernetes setting is Workspace
 - Workspace file - set cluster and image_chroot in `k8s_defaults`
 
+== Bazel Kubernetes Rules
+- Go to bazel kubernetes rules website and pasta rules
+- Add load statement for kubernetes bazel
+- add k8s_deployment
+
+== Build Kubernetes Deployment
+
+- Get default deployment example from https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+- Update the deployment.yaml to have the correct image name
+- also set resource limits
+
+[source,yaml]
+----
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "250m"
+    limits:
+      memory: "128Mi"
+      cpu: "500m"
+----
+
 == Deploy to Kubernetes
 - Talk about authenticating to Kubernetes cluster and the docker registry locally
 - Update the k8s_deploy definition to have the correct image name
-- Update the deployment.yaml to have the correct image name
 - `bazel run //:go_deployment.apply`
+- this will fail
 
 == Update bazelrc
 - get the logs and talk about cross build
@@ -113,5 +128,3 @@ run --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64
 
 - sudo kubectl port-forward deployment/go-deployment 80:80
 - curl http://localhost/cars
-
-TODO add service
