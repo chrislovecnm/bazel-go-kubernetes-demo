@@ -54,9 +54,9 @@
 - Setup defaults for GKE cluster
 
 == Kubernetes
+- Add load statement for kubernetes bazel
 - Get default deployment example from https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
 - Edit name and container URL
-- Add load statement
 
 == Run Gazelle
 - bazel run //:gazelle
@@ -84,13 +84,15 @@ run --host_force_python=PY2
 - curl http://localhost/cars
 
 == Container
+- Add load statement for go_image
 - Add go_image
-- Add load for go_image
+- use `binary = ":bazel-go-kubernetes-demo",` to work with gazelle
 
 == Update Kubernetes setting is Workspace
-cluster and image_chroot
+- Workspace file - set cluster and image_chroot in `k8s_defaults`
 
 == Deploy to Kubernetes
+- Talk about authenticating to Kubernetes cluster and the docker registry locally
 - Update the k8s_deploy definition to have the correct image name
 - Update the deployment.yaml to have the correct image name
 - `bazel run //:go_deployment.apply`
