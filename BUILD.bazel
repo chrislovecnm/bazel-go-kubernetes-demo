@@ -31,9 +31,9 @@ go_image(
 )
 
 k8s_deploy(
-    name = "app_image",
+    name = "go_deployment",
     template = ":deployment.yaml",
     images = {
-        "gcr.io/chrislovecnm/server:dev": ":go_container",
+        "go_deployment:do_not_delete": ":go_container",
     },
 )

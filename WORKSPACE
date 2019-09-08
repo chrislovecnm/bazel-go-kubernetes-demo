@@ -81,7 +81,8 @@ k8s_defaults(
     kind = "deployment",
     # This is the name of the cluster as it appears in:
     #   kubectl config view --minify -o=jsonpath='{.contexts[0].context.cluster}'
-    cluster = "my-gke-cluster",
+    cluster = "gke_cnmconsulting-182505_us-west2-c_test-cluster",
+    image_chroot = "gcr.io/cnmconsulting-182505"
 )
 
 go_repository(

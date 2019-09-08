@@ -24,6 +24,6 @@ spec:
     - metadata:
         name: my-node-pool
       spec:
-        initialNodeCount: 1
-        machineType: n1-standard-1
+        initialNodeCount: 2
+        machineType: n1-standard-2
         preemptible: true

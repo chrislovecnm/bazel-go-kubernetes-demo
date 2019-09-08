@@ -1,0 +1,4 @@
+= Bazel Go Kubernetes Demo
+
+This is a skeleton project for a live coding demo.
+The HOWTO.adoc documents how to do the live coding.
